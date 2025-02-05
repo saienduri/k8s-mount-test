@@ -27,4 +27,5 @@ jobs:
       
       - name: "Print nfs file"
         run: |
+          df -h
           cat /mnt_k8s/hello.txt
