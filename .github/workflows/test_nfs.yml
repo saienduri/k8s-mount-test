@@ -1,0 +1,30 @@
+# Copyright 2024 Advanced Micro Devices, Inc.
+#
+# Licensed under the Apache License v2.0 with LLVM Exceptions.
+# See https://llvm.org/LICENSE.txt for license information.
+# SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+
+name: Test NFS
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  # A PR number if a pull request and otherwise the commit hash. This cancels
+  # queued and in-progress runs for the same PR (presubmit) or commit
+  # (postsubmit). The workflow name is prepended to avoid conflicts between
+  # different workflows.
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  test-nfs:
+    name: "Test AMD GPU Cluster NFS"
+    runs-on: linux-mi300-gpu-1
+    steps:
+      - name: "Checking out repository"
+        uses: actions/checkout@v4
+      
+      - name: "Print nfs file"
+        run: |
+          cat /mnt_k8s/hello.txt
