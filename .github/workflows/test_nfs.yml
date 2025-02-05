@@ -27,5 +27,7 @@ jobs:
       
       - name: "Print nfs file"
         run: |
+          rocm-smi
+          rocminfo
           df -h
           cat /mnt_k8s/hello.txt
